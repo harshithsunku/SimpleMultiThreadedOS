@@ -1,7 +1,7 @@
 #include "kernel.h"
 #include <stddef.h>
 #include <stdint.h>
-
+#include "idt.h"
 
 /**
  * Pointer to the video memory.
@@ -145,4 +145,6 @@ void kernel_main()
 {
     terminal_initialize();
     print("Harshith!\nWorking...\n");
+
+    idt_init();
 }
