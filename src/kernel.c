@@ -147,4 +147,10 @@ void kernel_main()
     print("Harshith!\nWorking...\n");
 
     idt_init();
+
+    while (1)
+    {
+        /* code */
+    }
+    
 }
