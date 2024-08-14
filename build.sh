@@ -15,6 +15,7 @@ export PATH="$PREFIX/bin:$PATH"
 cd build
 mkdir -p idt
 mkdir -p memory
+mkdir -p io
 cd ..
 
 # Run the make command to build the project

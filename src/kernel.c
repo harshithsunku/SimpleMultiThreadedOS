@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "idt.h"
+#include "io.h"
 
 /**
  * Pointer to the video memory.
@@ -148,6 +149,9 @@ void kernel_main()
 
     idt_init();
 
+    outb(0x60, 0xFF);
+
+    // infinite loop
     while (1)
     {
         /* code */

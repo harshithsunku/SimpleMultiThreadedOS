@@ -10,14 +10,17 @@
 #   - ./bin/os.bin:       The combined bootloader and kernel binary.
 #   - ./build/kernel.asm.o:    The compiled kernel assembly object file.
 #   - ./build/kernel.o:    The compiled kernel C object file.
+#   - ./build/idt/idt.asm.o:    The compiled IDT assembly object file.
+#   - ./build/io/io.asm.o:    The compiled IO assembly object file.
 
 # The files to compile.
-FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o
+FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/io/io.asm.o
 
 # The include directories for the project.
 INCLUDES = -I./src
 INCLUDES += -I./src/idt
 INCLUDES += -I./src/memory
+INCLUDES += -I./src/io
 
 # The compiler flags for the project.
 FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
@@ -66,6 +69,11 @@ all: ./bin/boot.bin ./bin/kernel.bin
 ./build/memory/memory.o: ./src/memory/memory.c
 	# Compile the memory C file into an object file.
 	i686-elf-gcc $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/memory.c -o ./build/memory/memory.o
+
+# The IO assembly object file target.
+./build/io/io.asm.o: ./src/io/io.asm
+	# Compile the IO assembly file into an object file.
+	nasm -f elf -g ./src/io/io.asm -o ./build/io/io.asm.o
 
 # The clean target.
 clean:
