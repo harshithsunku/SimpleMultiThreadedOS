@@ -149,12 +149,9 @@ void kernel_main()
 
     idt_init();
 
-    outb(0x60, 0xFF);
-
     // infinite loop
     while (1)
     {
         /* code */
     }
-    
 }

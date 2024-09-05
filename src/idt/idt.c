@@ -2,6 +2,7 @@
 #include "config.h"
 #include "memory.h"
 #include "kernel.h"
+#include "io.h"
 /**
  * @brief Array of interrupt descriptor structures.
  *
@@ -17,6 +18,18 @@ struct idt_desc idt_descriptors[SIMPLEOS_TOTAL_INTERRUPTS];
  * This structure is used to hold the base address and the limit of the IDT.
  */
 struct idtr_desc idtr_descriptor;
+
+void int21h_handler()
+{
+    print("Keyboard pressed!\n");
+    outb(0x20, 0x20);
+}
+
+void no_interrupt_handler()
+{
+    outb(0x20, 0x20);
+}
+
 
 /**
  * @brief Divide by zero interrupt handler.
@@ -70,10 +83,21 @@ void idt_init()
     idtr_descriptor.limit = sizeof(idt_descriptors) - 1;
     idtr_descriptor.base = (uint32_t)idt_descriptors;
 
+    // Set up the IDT entries for all interrupts
+    for (int i = 0; i < SIMPLEOS_TOTAL_INTERRUPTS; i++)
+    {
+        // Set the IDT entry for the current interrupt number
+        idt_set(i, no_interrupt);
+    }
+
     // Set the IDT entry for the divide by zero exception
     idt_set(0x01, idt_zero_handler);
 
+    // Set the IDT entry for the keyboard interrupt
+    idt_set(0x21, int21h);
+
     // Load the IDT
+    // This function loads the IDT descriptor into the processor's IDTR register
     idt_load(&idtr_descriptor);
 }
 
