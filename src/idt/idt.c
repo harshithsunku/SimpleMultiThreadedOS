@@ -19,6 +19,14 @@ struct idt_desc idt_descriptors[SIMPLEOS_TOTAL_INTERRUPTS];
  */
 struct idtr_desc idtr_descriptor;
 
+/**
+ * @brief Handler for interrupt 0x21.
+ *
+ * This function is called when a key is pressed on the keyboard. It prints
+ * a message to the terminal and sends an end-of-interrupt signal to the PICs.
+ *
+ * @return void
+ */
 void int21h_handler()
 {
     print("Keyboard pressed!\n");

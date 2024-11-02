@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include "idt.h"
 #include "io.h"
+#include "memory.h"
+#include "kheap.h"
 
 /**
  * Pointer to the video memory.
@@ -147,8 +149,22 @@ void kernel_main()
     terminal_initialize();
     print("Harshith!\nWorking...\n");
 
+    // Initialize the heap
+    kheap_init();
+
     idt_init();
 
+    void *ptr = kmalloc(10);;
+    void *ptr2 = kmalloc(20);
+
+    kfree(ptr);
+
+    void *ptr3 = kmalloc(10);
+
+    if(ptr == NULL || ptr2 == NULL || ptr3 == NULL)
+    {
+        
+    }
     // infinite loop
     while (1)
     {

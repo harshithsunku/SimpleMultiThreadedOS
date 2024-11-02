@@ -15,6 +15,9 @@ export PATH="$PREFIX/bin:$PATH"
 cd build
 mkdir -p idt
 mkdir -p memory
+cd memory
+mkdir -p heap
+cd ..
 mkdir -p io
 cd ..
 

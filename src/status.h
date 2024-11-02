@@ -1,0 +1,11 @@
+#ifndef STATUS_H
+#define STATUS_H
+
+#define SUCCESS 0
+#define ERROR_INVALID_ARGUMENT -1
+#define ERROR_OUT_OF_MEMORY -2
+#define ERROR_NOT_IMPLEMENTED -3
+#define ERROR_INPUT_OUTPUT -4
+#define ERROR_NULL_POINTER -5
+
+#endif

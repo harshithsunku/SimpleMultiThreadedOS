@@ -11,19 +11,23 @@
 #   - ./build/kernel.asm.o:    The compiled kernel assembly object file.
 #   - ./build/kernel.o:    The compiled kernel C object file.
 #   - ./build/idt/idt.asm.o:    The compiled IDT assembly object file.
+#   - ./build/idt/idt.o:    The compiled IDT C object file.
 #   - ./build/io/io.asm.o:    The compiled IO assembly object file.
+#   - ./build/memory/heap/heap.o:    The compiled heap C object file.
 
 # The files to compile.
-FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o ./build/io/io.asm.o
+FILES = ./build/kernel.asm.o ./build/kernel.o ./build/idt/idt.asm.o ./build/idt/idt.o ./build/memory/memory.o \
+		./build/io/io.asm.o ./build/memory/heap/heap.o ./build/memory/heap/kheap.o
 
 # The include directories for the project.
 INCLUDES = -I./src
 INCLUDES += -I./src/idt
 INCLUDES += -I./src/memory
 INCLUDES += -I./src/io
+INCLUDES += -I./src/memory/heap
 
 # The compiler flags for the project.
-FLAGS = -g -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
+FLAGS = -g -ggdb -g3 -ffreestanding -falign-jumps -falign-functions -falign-labels -falign-loops -fstrength-reduce -fomit-frame-pointer -finline-functions -Wno-unused-function -fno-builtin -Werror -Wno-unused-label -Wno-cpp -Wno-unused-parameter -nostdlib -nostartfiles -nodefaultlibs -Wall -O0 -Iinc
 
 # The default target.
 all: ./bin/boot.bin ./bin/kernel.bin
@@ -74,6 +78,16 @@ all: ./bin/boot.bin ./bin/kernel.bin
 ./build/io/io.asm.o: ./src/io/io.asm
 	# Compile the IO assembly file into an object file.
 	nasm -f elf -g ./src/io/io.asm -o ./build/io/io.asm.o
+
+# The heap C object file target.
+./build/memory/heap/heap.o: ./src/memory/heap/heap.c
+	# Compile the heap C file into an object file.
+	i686-elf-gcc $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/heap/heap.c -o ./build/memory/heap/heap.o
+
+# The kheap C object file target.
+./build/memory/heap/kheap.o: ./src/memory/heap/kheap.c
+	# Compile the kheap C file into an object file.
+	i686-elf-gcc $(INCLUDES) $(FLAGS) -std=gnu99 -c ./src/memory/heap/kheap.c -o ./build/memory/heap/kheap.o
 
 # The clean target.
 clean:
