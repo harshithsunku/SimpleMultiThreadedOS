@@ -8,6 +8,19 @@ extern no_interrupt_handler ; The handler for unhandled interrupts
 global int21h ; The interrupt 0x21 handler
 global idt_load ; The function to load the IDT
 global no_interrupt ; The default interrupt handler
+global enable_interrupts  ; The function to enable interrupts
+global disable_interrupts  ; The function to disable interrupts
+
+; The function to enable interrupts
+enable_interrupts:
+    sti
+    ret
+
+; The function to disable interrupts
+disable_interrupts:
+    cli
+    ret
+
 
 ; The function to load the IDT
 idt_load:

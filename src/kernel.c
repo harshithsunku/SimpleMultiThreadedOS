@@ -152,7 +152,11 @@ void kernel_main()
     // Initialize the heap
     kheap_init();
 
+    // Initialize the IDT
     idt_init();
+
+    // Enable interrupts
+    enable_interrupts();
 
     void *ptr = kmalloc(10);;
     void *ptr2 = kmalloc(20);
@@ -163,7 +167,7 @@ void kernel_main()
 
     if(ptr == NULL || ptr2 == NULL || ptr3 == NULL)
     {
-        
+        print("Failed to allocate memory\n");
     }
     // infinite loop
     while (1)

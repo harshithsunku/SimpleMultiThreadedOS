@@ -111,4 +111,22 @@ extern void int21h();
  */
 extern void no_interrupt();
 
+/**
+ * @brief Enables interrupts.
+ *
+ * This function enables interrupts by setting the IF flag in the EFLAGS register.
+ *
+ * @return void
+ */
+void enable_interrupts();
+
+/**
+ * @brief Disables interrupts.
+ *
+ * This function disables interrupts by clearing the IF flag in the EFLAGS register.
+ *
+ * @return void
+ */
+void disable_interrupts();
+
 #endif
